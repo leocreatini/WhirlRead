@@ -5,7 +5,7 @@ $(document).ready(function(){
 	var speedI = document.getElementById("speed");
 	var textI = document.getElementById("text");
 	//We'll use this to add extra delays to punctuations
-	var punctuations = ".,;:!?-—";
+	var punctuations = ".,;:!?-";
 
 	//Set variables
 	var time;
@@ -53,6 +53,21 @@ $(document).ready(function(){
 		//Function that runs text and keeps running
 		//Until there aren't any more words in array.
 		var run = function() {
+			this.pause = function(){
+				localStorage.setItem("index", i);
+				i = null;
+				console.log( parseInt( localStorage.getItem("index") ) );
+				$("#pause").removeClass("pause").addClass("resume");
+				$("#pause").text("resume");
+			};
+			this.resume = function(){
+				console.log( parseInt( localStorage.getItem("index") ) );
+				i = parseInt( localStorage.getItem("index") );
+				setTimeout(run, ( 60000 / delayTime(time, word) ));
+				$(this).removeClass("resume").addClass("pause");
+				$(this).text("pause");
+			};
+			
 			word = padWord(text[i]);
 			word = word.split("~");
 			if(word[1]){text.splice(i+1, 0, word[1]);}
@@ -62,8 +77,8 @@ $(document).ready(function(){
 				word = "";
 			}
 			textShow.innerHTML = word[0];
-			exp += 5;
 			i++;
+			exp += 5;
 		};
 	
 	//DRIVER STOP
@@ -76,7 +91,7 @@ $(document).ready(function(){
 			i = 0;
 			time = speedI.value;
 			text = textI.value.replace(/(\r\n|\n|\r)/gm," ").replace(/\s{2,}/g, " ").replace(/\t/g, "").split(" ");
-			$this.removeClass("start").addClass("replay")
+			$this.removeClass("start").addClass("replay");
 			$this.text("replay");
 			$("#text").css("visibility", "hidden");
 			$("#warning").css("visibility", "hidden");
@@ -90,21 +105,14 @@ $(document).ready(function(){
 			i = 0;
 		});
 
-		//PROBLEM: Not working correctly.
+		//Pauses the playback.
 		$(".pause").click(function() {
-			var $this = $("#pause");
-			if ( i <= text.length ){
-				localStorage.setItem("index", i);
-				i = "paused";
-				$this.removeClass("pause").addClass("play")
-				$this.text("play");
-			}
+			pause();
 		});
 		
-		//Starts playback again.
-		$(".play").click(function() {
-			console.log("Index was " + localStorage.getItem("index"));
-			
+		//PROBLEM: Not working correctly.
+		$(".resume").click(function() {
+			resume();
 		});
 		
 		//Resets the system.
