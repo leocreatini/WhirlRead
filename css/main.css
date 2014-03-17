@@ -1,0 +1,130 @@
+body{
+	font-family: 'Droid Sans Mono', sans-serif;
+}
+button{
+	width: 60px;
+	height: 40px;
+	background:none;
+	border:none;
+	padding: 5px;
+	border-radius: 1px;
+	margin-left: 10px;
+}
+button:hover{
+	background: #0266C8;
+	color: white;
+}
+button:highlighted{
+	background: none;
+	border:none;
+}
+nav{
+	display:inline;
+}
+ul{
+	list-style-type:none;
+	font-size:14px;
+}
+li{
+	display:inline;
+	margin-right: 10px;
+}
+a{
+	text-decoration:none;
+	color: #44AAC8;
+}
+a:hover{
+	color: #0266C8;
+}
+h1{
+	display: inline;
+	font-family: 'Lobster', cursive;
+	font-size: 44px;
+	color: #0198E1;
+}
+h2{
+	display: inline;
+	font-size: 14px;
+	color: #555555;
+}
+.container{
+	width: 600px;
+	height: 125px;
+	margin: 30px auto;
+	position: relative;
+}
+.box{
+	position: absolute;
+	margin: 0px 0px 0px 120px;
+	
+}
+.gauge{
+	font-size: 14px;
+}
+.start{
+	color: #00933B;
+}
+.start:hover{
+	color: #FFFFFF;
+}
+.block{
+    position: absolute;
+    background-color: #66CD00;
+	opacity: .6;
+    width: 1px;
+    height: 1px;
+	z-index: 1;
+	margin-top: -84px;
+	margin-left: 1px;
+}
+.arrow{
+	position: absolute;
+	text-align: center;
+	margin-left: 0px;
+	padding-right: 47.5px;
+	opacity: .2;
+	z-index: 500;
+}
+#motto{
+	font-size: 18px;
+	padding-top: 25px;
+}
+#screen{
+	position: relative;
+	height: 75px;
+	width: 300px;
+	margin: 20px auto;
+	background: #FFFFFF;
+    font-size: 28px;
+	font-family: 'Droid Sans Mono', sans-serif;
+    text-align: left;
+    padding-top: 10px;
+    white-space: pre;
+	z-index: 20;
+}
+#speed{
+    width: 50px;
+    border: none;
+    text-align: right;
+	margin-top: 9px;
+	margin-right: 2px;
+}
+#text{
+	position: relative;
+	min-width: 300px;
+	width: 100%;
+	height: 84px;
+	background: #FFFFFF;
+	border: none;
+	margin: 1px;
+	z-index: 500;
+}
+#text:hover{
+	border: 1px solid #DDDDDD;
+}
+#topArrow{
+	margin-top: 20px;
+}
+#botArrow{
+	margin-top: -35px;
+}
