@@ -6,9 +6,8 @@ or even emails — then hit 'Enter' to start. Use 'Up' and 'Down' arrows on keyb
 Use 'Left' and 'Right arrows to backtrack and jump 20 words.
 
 
-Known Bugs:
+Known Bug(s):
 1. "Play" after being paused does not work. User must press 'replay' or 'reset' and paste text once again.
-2. Words 14 characters and above get cut in two. The second part does not appear.
 
 
 Future Additions:
