@@ -11,8 +11,9 @@ $(document).ready(function(){
 	var time;
 	var i;
 	var word;
+	var running;
 	var trueLength;
-	var saveMark;
+	var flow;
 	var curSpd;
 	var exp;
 	var lvl;
@@ -53,26 +54,11 @@ $(document).ready(function(){
 		//Function that runs text and keeps running
 		//Until there aren't any more words in array.
 		var run = function() {
-			this.pause = function(){
-				localStorage.setItem("index", i);
-				i = null;
-				console.log( parseInt( localStorage.getItem("index") ) );
-				$("#pause").removeClass("pause").addClass("resume");
-				$("#pause").text("resume");
-			};
-			this.resume = function(){
-				console.log( parseInt( localStorage.getItem("index") ) );
-				i = parseInt( localStorage.getItem("index") );
-				setTimeout(run, ( 60000 / delayTime(time, word) ));
-				$(this).removeClass("resume").addClass("pause");
-				$(this).text("pause");
-			};
-			
 			word = padWord(text[i]);
 			word = word.split("~");
 			if(word[1]){text.splice(i+1, 0, word[1]);}
 			if (i <= text.length) {
-				setTimeout(run, ( 60000 / delayTime(time, word) ));
+				running = setTimeout(run, ( 60000 / delayTime(time, word) ));
 			}else{
 				word = "";
 			}
@@ -87,43 +73,57 @@ $(document).ready(function(){
 	
 		//Initiates the driver.
 		$(".start").click(function() {
-			var $this = $(this);
-			i = 0;
-			time = speedI.value;
-			text = textI.value.replace(/(\r\n|\n|\r)/gm," ").replace(/\s{2,}/g, " ").replace(/\t/g, "").split(" ");
-			$this.removeClass("start").addClass("replay");
-			$this.text("replay");
-			$("#text").css("visibility", "hidden");
-			$("#warning").css("visibility", "hidden");
-			run();
+			var $this = $("#start");
+			if( $("#text").val() != "" ){
+				i = 0;
+				time = speedI.value;
+				text = textI.value.trim().replace(/(\r\n|\n|\r)/gm," ").replace(/\t/g, " ").replace(/\s{2,}/g, " ").split(" ");
+				//Hides replay button and input.
+				$this.removeClass("start").addClass("replay");
+				$this.text("replay");
+				$this.css("visibility", "hidden");
+				$("#text").css("visibility", "hidden");
+				$("#exp").text("Exp: " + commaSeparateNumber(exp) + " Level: " + lvl);
+				run();
+			}
 		});
 		
 		//Replays and resets 'pause'
 		$(".replay").click(function(){
-			$("#pause").removeClass("play").addClass("pause");
-			$("#pause").text("pause");
+			$(document).find('.resume').removeClass('resume').addClass('pause').text("pause");
+			$("#start").css("visibility", "hidden");
 			i = 0;
+			
 		});
 
-		//Pauses the playback.
-		$(".pause").click(function() {
-			pause();
-		});
-		
-		//PROBLEM: Not working correctly.
-		$(".resume").click(function() {
-			resume();
+		//Pauses and resumes playback.
+		$("#pause").click(function() {
+			var $this = $(this);
+			if( i > 0 ) {
+				if ($this.hasClass("pause")) {
+					clearTimeout(running);
+					$this.removeClass("pause").addClass("resume");
+					$this.text("resume");
+					$("#start").css("visibility", "visible");
+				} else {
+					$this.removeClass("resume").addClass("pause");
+					$this.text("pause");
+					run();
+				}
+			}
 		});
 		
 		//Resets the system.
 		$("#reset").click(function(){
 			$("#start").text("start");
 			$("#start").removeClass("replay").addClass("start");
+			$("#pause").removeClass("resume").addClass("pause");
 			$("#pause").text("pause");
 			$("#text").val("");
 			text = null;
 			$("#screen").text("");
 			$("#text").css('visibility', 'visible');
+			$("#start").css('visibility', 'visible');
 			$(".block").css({"width":"1px","height":"1px","margin-left":"-1px","margin-top":"-84px"});
 			$(".block").fadeIn(0);
 			i = 0;
@@ -171,7 +171,7 @@ $(document).ready(function(){
 			$(".block").css({"width": $("#text").width()+18 ,"height": $("#text").height()+18 ,"margin-left":"-8px","margin-top":"-94px"});
 			$(".block").fadeOut(600);
 		});
-		
+
 	//BUTTONS STOP
 	
 	//BEHAVIOR START
@@ -182,9 +182,10 @@ $(document).ready(function(){
 		});
 		
 		//Pauses when user leaves window, tabs out.
-		//Will click pause when 'play' function is fixed.
 		$(window).blur(function(e) {
-			$(document).click();
+			if( $("#pause").hasClass("pause") ){
+				$("#pause").click();
+			}
 		});
 		
 	//BEHAVIOR STOP
@@ -203,6 +204,7 @@ $(document).ready(function(){
 
 		//Accounts for punctuations and highlights letter.
 		var padWord = function(word){
+			if(word == " "){word = "";}
 			if(endsInPunctuation(word)){
 				trueLength = (word.length)-1;
 			}else{
@@ -249,7 +251,7 @@ $(document).ready(function(){
 					word = "&nbsp   " + word.replaceAt(3, word.charAt(3), "#F90101");
 					break;
 				default:
-					word = word.splitThirteen(12,word.charAt(12));
+					word = word.splitThirteen(9,word.charAt(9));
 					word = "&nbsp   " + word.replaceAt(3, word.charAt(3), "#F90101");
 					break;
 			}
@@ -292,17 +294,17 @@ $(document).ready(function(){
 			localStorage.setItem("lvl", lvl);
 			//Sets required experience to level up.
 			if (lvl < 11){
-				expToLvl = (40*(lvl*lvl)) + (720*lvl);
+				expToLvl = (100*(lvl*lvl)) + (720*lvl);
 				if (exp >= expToLvl){
 					lvlUp();
 				}
 			} else if(lvl >= 11 && lvl < 32){
-				expToLvl = (-.4*(lvl*lvl*lvl)) + (40.4*(lvl*lvl)) + (800*lvl);
+				expToLvl = (40*lvl*lvl*lvl) + (40.4*lvl*lvl) + (800*lvl);
 				if (exp >= expToLvl){
 					lvlUp();
 				}
 			} else if (lvl >= 32 && lvl < 60){
-				expToLvl = (75*(lvl*lvl)) - ((200*lvl) - 6750) * .82;
+				expToLvl = (200*lvl*lvl*lvl) - (100*lvl);
 				if (exp >= expToLvl){
 					lvlUp();
 				}

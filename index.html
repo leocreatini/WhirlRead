@@ -4,8 +4,7 @@
 <head>
 <meta charset="utf-8"></meta>
 <title>Whirl Read</title>
-
-<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script> -->
+<meta name="description" content="A gamified speed-reading web app. Simply copy and paste your text of choice and hit start to become well-read.">
 <link href='http://fonts.googleapis.com/css?family=Droid+Sans+Mono' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="../WhirlRead/css/main.css" />
@@ -18,30 +17,28 @@
 		<div class="grid">
 			<header id="banner">
 				<br>
-				<h1 class="unit three-of-five">Whirl Read</h1>
-				<h2 id="motto" class="unit two-of-five">Become well-read.™<h2>
-				<!--<nav><ul>
-					<li class="active"><a href="#">home</a></li>
-					<li><a href="#">about</a></li>
-					<li><a href="#">blog</a></li>
-					<li><a href="#">contact</a></li>
-				</ul></nav>-->
+				<img id="logo" src="../WhirlRead/img/WhirlRead_Logo_02.png"></img>
+				<h2 id="motto" class="unit two-of-five">Be well-read.™</h2>
 			</header>
 		</div>
 	</div>
 	<div class="container">
 		<div class="grid">
-			<p id="exp" class="unit span-grid">Bear the bugs, enjoy the read.</p>
+			<p id="exp" class="unit span-grid">Enjoy the read, share your discovery.</p>
 			<textarea id="text" class="unit one-of-one" placeholder="Use 'Ctrl+V' to paste text.                                             Use 'Up/Down' to change speed                                             Use 'Left' to rewind.                                                      Use 'Right' to pause and play.                                             Press 'Enter' to begin."></textarea>
 			<div class="block"></div>
-			</br>
-			</br>
+		</div>
+	</div>
+	<div class="container">
+		<div class="grid">
 			<input type="number"  id="speed" class="unit one-of-four" placeholder="Speed"><span class="gauge">wpm</span></input>
 			<button id="start" class="unit one-of-four gauge start">start</button>
 			<button id="pause" class="unit one-of-four gauge pause">pause</button>
 			<button id="reset" class="unit one-of-four gauge">reset</button>
-			</br>
-			</br>
+		</div>
+	</div>
+	<div class="container">
+		<div class="grid">
 			<p id="topArrow" class="unit span-grid arrow">▼</p>
 			</br>
 			<div id="screenBox" class="unit span-grid">
@@ -53,7 +50,6 @@
 	</div>
 </body>
 <footer>
-	<span id="ruler"></span>
 	<script src="../WhirlRead/js/jquery-2.1.0.min.js"></script>
 	<script src="../WhirlRead/js/main.js"></script>
 </footer>
